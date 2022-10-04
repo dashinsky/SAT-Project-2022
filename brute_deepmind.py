@@ -366,7 +366,3 @@ for problem in problems_list:
     
     #Print answer string
     print(problem_answer)
-    
-    
-        
-
