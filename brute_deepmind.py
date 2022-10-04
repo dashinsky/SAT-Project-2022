@@ -317,14 +317,22 @@ def format_output(num_prob, num_var, num_clause, num_per, num_lit, sat, test_res
 
 
 import time
+import sys
 
 #Execution: run all functions on the first several wff problems
 
+#0 parse command line argument
+input_file = sys.argv[1]
+
 #1: Read in the problems from the file
-problems_list = read_problems('kSAT.cnf')
+problems_list = read_problems(input_file)
 
 #1.1: (for testing): select only the first 10 problems to try
 test_problems_list = problems_list[:50]
+
+#1.2: Open output file
+output = open("answer.csv", "a")
+
 
 #2: Loop through the problems
 for problem in problems_list:
@@ -372,4 +380,8 @@ for problem in problems_list:
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, valid_assignment)
     
     #Print answer string
-    print(problem_answer)
+    #print(problem_answer)
+
+    #Write answer string to file
+    output.write(problem_answer+'\n')
+
