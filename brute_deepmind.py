@@ -321,8 +321,11 @@ import sys
 
 #Execution: run all functions on the first several wff problems
 
-#0 parse command line argument
+#0.0: parse command line argument
 input_file = sys.argv[1]
+
+#0.1: create name for output file from input file
+output_name = sys.argv[1].split('.')[0]+'.csv'
 
 #1: Read in the problems from the file
 problems_list = read_problems(input_file)
@@ -331,7 +334,7 @@ problems_list = read_problems(input_file)
 test_problems_list = problems_list[:50]
 
 #1.2: Open output file
-output = open("answer.csv", "a")
+output = open(output_name, "a")
 
 
 #2: Loop through the problems
