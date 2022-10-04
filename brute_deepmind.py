@@ -275,7 +275,7 @@ def check_against_answer_key(code_answer, given_answer):
         return 1
 
     #accounts for the case where there is no answer key
-    elif given_answer == 'NA':
+    elif given_answer == '?':
         return 0
 
     elif code_answer != given_answer:
