@@ -387,4 +387,3 @@ for problem in problems_list:
 
     #Write answer string to file
     output.write(problem_answer+'\n')
-
