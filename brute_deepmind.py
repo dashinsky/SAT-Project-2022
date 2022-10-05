@@ -392,6 +392,7 @@ for problem in test_problems_list:
     answers_list.append(problem_answer)
 
     #Write answer string to file
+<<<<<<< HEAD
     output.write(problem_answer+'\n')
 
 
@@ -435,3 +436,6 @@ output.write(last_line_csv+'\n')
 #Close file
 output.close()
 
+=======
+    output.write(problem_answer+'\n')
+>>>>>>> 014361e82e43c9837d32375088ef389715fbbeff
