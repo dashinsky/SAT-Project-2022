@@ -330,7 +330,10 @@ output_name = sys.argv[1].split('.')[0]+'.csv'
 #1: Read in the problems from the file
 problems_list = read_problems(input_file)
 
-#1.1: (for testing): select only the first 10 problems to try
+#1.0: Create an empty list to hold outputs
+answers_list = []
+
+#1.1: (for testing): select only the first xx problems to try
 test_problems_list = problems_list[:50]
 
 #1.2: Open output file
@@ -338,7 +341,7 @@ output = open(output_name, "a")
 
 
 #2: Loop through the problems
-for problem in problems_list:
+for problem in test_problems_list:
     
     #Parse the problem for relevant variables
     num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
@@ -385,6 +388,50 @@ for problem in problems_list:
     #Print answer string
     #print(problem_answer)
 
+    #Add answer string to list
+    answers_list.append(problem_answer)
+
     #Write answer string to file
     output.write(problem_answer+'\n')
+
+
+
+file_name = sys.argv[1].split('.')[0]
+
+
+#Generate last line of output: stats about the wffs solved
+total_wffs = len(answers_list)
+
+satisfiable_wffs = 0
+answers_provided = 0
+num_correct_answered = 0
+
+
+
+for entry in answers_list:
+    entry_list = entry.split(',')
+
+    if entry_list[5] == 'S':
+        satisfiable_wffs += 1
+    if entry_list[6] != 0:
+        answers_provided += 1
+    if entry_list[6] != -1 and entry_list[6] != 0:
+        num_correct_answered += 1
+
+unsatisfiable_wffs = total_wffs - satisfiable_wffs
+
+
+last_line_list = [str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)]
+
+last_line_csv = ','.join(last_line_list)
+
+
+#Write last line to file
+output.write(last_line_csv+'\n')
+
+
+
+
+#Close file
+output.close()
 
