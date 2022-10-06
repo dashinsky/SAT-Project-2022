@@ -146,8 +146,11 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if not stack:
         return False, []
 
-    if stack[]
+    if ...:
+        return True, stack
+        exit
 
+    # use a flag to return from the previous recursive calls
     # Recursive case
 
 
