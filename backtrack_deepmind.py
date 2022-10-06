@@ -43,9 +43,8 @@ def parse_problem(wff):
         for item in clause:
             num_lit += 1
     
-    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff
+    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff      
 
-        
 '''
 Say we took this example:
 
@@ -97,6 +96,20 @@ def backtracking(wff, k, num_per, num_clauses, possible_solution):
 
 '''
 
+def solve_sat(problem):
+    num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
+    time1 = time.time()*1000000
+
+    backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [])
+
+    time2 = time.time()*1000000
+
+def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
+    # num_var represents the current variable we are changing 
+    # Rules: 
+    #   - always assign 1 (True) first
+    
+    pass
 
 def main():
     input_file = sys.argv[1]
@@ -108,14 +121,14 @@ def main():
     answers_list = []
 
     for problem in test_problems_list:
-
-        num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
-        time1 = time.time()*1000000
+        solve_sat(problem)
+        # num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
+        #time1 = time.time()*1000000
 
         #assignments = generate_assignments(num_var)
         #satisfiable, assignment_index = check_assignments(wff, assignments)
 
-        time2 = time.time()*1000000
+        # time2 = time.time()*1000000
 
         '''
         completion_time = time2-time1
