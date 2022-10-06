@@ -127,9 +127,6 @@ def solve_sat(problem):
     time2 = time.time()*1000000
 
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
-    # num_var represents the current variable we are changing 
-    # Rules: 
-    #   - always assign 1 (True) first
 
     '''
     Flow of the function:
@@ -146,12 +143,27 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if not stack:
         return False, []
 
-    if ...:
+    if check_assignment(wff, stack) == num_clause:
         return True, stack
-        exit
 
-    # use a flag to return from the previous recursive calls
+    if num_var == -1:
+        return False, stack
+
+    # use a flag to return from the previous recursive calls to know that it is satisfiable
     # Recursive case
+    stack.append([num_var - 1, 1, False])
+    flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
+
+    if flag == True:
+        return True, path
+
+    elif flag == False:
+        if stack[-1][-1] == False:
+            stack[-1][1] = 0
+            stack[-1][-1] = True
+            backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
+        else:
+            stack.pop()
 
 
 
