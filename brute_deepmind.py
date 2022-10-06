@@ -154,7 +154,22 @@ def main():
     output = open(output_name, "a")
 
 
+<<<<<<< HEAD
     for problem in problems_list:
+=======
+import time
+
+#Execution: run all functions on the first several wff problems
+
+#1: Read in the problems from the file
+problems_list = read_problems('tests/kSAT.cnf')
+
+#1.1: (for testing): select only the first 10 problems to try
+test_problems_list = problems_list[:50]
+
+#2: Loop through the problems
+for problem in problems_list:
+>>>>>>> 5afab97 (testing commit)
     
         num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
     
