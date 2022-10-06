@@ -127,7 +127,6 @@ def main():
 
         completion_time = time2-time1
     
-        
         if assignment_index == -1:
             valid_assignment = []
         else:
