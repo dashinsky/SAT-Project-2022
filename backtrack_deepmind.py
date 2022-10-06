@@ -43,10 +43,10 @@ def parse_problem(wff):
         for item in clause:
             num_lit += 1
     
-    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff      
+    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff    
 
 
-def check_assignment(wff, stack):
+def count_sat_clauses(wff, stack):
     '''
     Returns the number of clauses that are satisfied
     '''
@@ -68,13 +68,25 @@ def check_assignment(wff, stack):
     return count
 
 
+def check_answer_key(found, given):
+    if found == given:
+        return 1
+    elif given == '?':
+        return 0
+    elif found != given:
+        return -1
+
+
 def solve_sat(problem):
     num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
     time1 = time.time()*1000000
-
-    satisfiable, assignments = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
-
+    answer, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
     time2 = time.time()*1000000
+    completion_time = time2-time1
+
+    result = check_answer_key(answer, sat)
+    problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, answer, result, completion_time, assignment)
+
 
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     '''
@@ -92,7 +104,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if not stack:
         return False, []
 
-    if check_assignment(wff, stack) == num_clause:
+    if count_sat_clauses(wff, stack) == num_clause:
         return True, stack
 
     if num_var == -1:
