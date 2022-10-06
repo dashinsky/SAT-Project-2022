@@ -3,12 +3,6 @@
 import time
 import sys
 
-class Stack_Member_Attributes:
-    def __init__(self) -> None:
-        self.assignment= None
-        self.bothTried= False
-
-
 def read_problems(filename):
     with open(filename) as ksat:
         lines = ksat.read()
