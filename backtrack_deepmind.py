@@ -139,7 +139,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
         - if stack is empty
 
     '''
-    # Base case - indicates the case when the wff is unsatisfiable (stack is empty)
+    # Base cases
     if not stack:
         return False, []
 
@@ -149,7 +149,6 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if num_var == -1:
         return False, stack
 
-    # use a flag to return from the previous recursive calls to know that it is satisfiable
     # Recursive case
     stack.append([num_var - 1, 1, False])
     flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
