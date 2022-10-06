@@ -174,7 +174,6 @@ def main():
     for problem in test_problems_list:
     
         num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
-        print("Working on problem " + str(num_prob) +" ....")
         time1 = time.time()*1000000
 
         assignments = generate_assignments(num_var)

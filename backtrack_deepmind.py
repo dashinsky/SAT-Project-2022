@@ -34,7 +34,6 @@ def parse_problem(wff):
     cnf_info = wff[1].split()
     num_variables = int(cnf_info[2])
     num_clauses = int(cnf_info[3])
-    num_assignments = int(2**(int(num_variables)))
     wff = wff[2:]
     list_wff = [clause.split(",")[:-1] for clause in wff]
     final_wff = [ [int(item) for item in clause] for clause in list_wff]
@@ -44,7 +43,7 @@ def parse_problem(wff):
         for item in clause:
             num_lit += 1
     
-    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_assignments,num_lit,final_wff
+    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff
 
         
 '''
@@ -110,8 +109,7 @@ def main():
 
     for problem in test_problems_list:
 
-        num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
-        print("Working on problem " + str(num_prob) +" ....")
+        num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
         time1 = time.time()*1000000
 
         #assignments = generate_assignments(num_var)
