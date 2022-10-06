@@ -61,22 +61,18 @@ def generate_assignments(num_variables):
 
 
 def verify(wff, assignment):
-    
     valid = 1
     
     for clause in wff:
         valid_clause = 0
-        
         clause_tf = []
         for item in clause:
             if item > 0:
                 clause_tf.append(1)
             else:
                 clause_tf.append(0)
-                
         
         clause_tf_index = 0
-        
         for item in clause:
             if assignment[abs(item) - 1] == clause_tf[clause_tf_index]:
                 
@@ -92,14 +88,12 @@ def verify(wff, assignment):
     
 def check_assignments(wff, assignments_list):
     satisfiable = 0
-    
     assignment_index = 0
+
     for assignment in assignments_list:
         if (verify(wff, assignment) == 1):
             satisfiable = 1
-            
             return satisfiable,assignment_index
-        
         assignment_index += 1
     
     if satisfiable == 0:
@@ -130,60 +124,71 @@ def format_output(num_prob, num_var, num_clause, num_per, num_lit, sat, test_res
         sat_string = 'U'
       
     answer.append(sat_string)
-    
     answer.append(str(test_result))
-    
     answer.append(str(completion_time))
     
     for value in values:
         answer.append(str(value))
-
         
     return ','.join(answer)
+
+def last_line_output(answers_list):
+    '''
+    Generates last line of output
+    - Stats about wff solved
+    '''
+    #Generate last line of output: stats about the wff solved
+    total_wffs = 0
+    satisfiable_wffs = 0
+    answers_provided  = 0
+    num_correct_answered = 0
+    file_name = sys.argv[1].split('.')[0]
+
+    for entry in answers_list:
+        total_wffs += 1
+
+        entry_list = entry.split(',')
+        print(entry_list)
+    
+        if entry_list[5] == 'S':
+            satisfiable_wffs += 1
+        if entry_list[6] != 0:
+            answers_provided += 1
+        if entry_list != -1 and entry_list[6] != 0:
+            num_correct_answered += 1
+        
+    unsatisfiable_wffs = total_wffs - satisfiable_wffs
+
+    return ','.join([str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)])
 
 
 def main():
     input_file = sys.argv[1]
-
     output_name = sys.argv[1].split('.')[0]+'.csv'
-
     problems_list = read_problems(input_file)
+    test_problems_list = problems_list[:150]
 
-    test_problems_list = problems_list[:50]
+    output = open(output_name, "w")
+    answers_list = []
 
-    output = open(output_name, "a")
-
-
-import time
-
-#Execution: run all functions on the first several wff problems
-
-#1: Read in the problems from the file
-problems_list = read_problems('tests/kSAT.cnf')
-
-#1.1: (for testing): select only the first 10 problems to try
-test_problems_list = problems_list[:50]
-
-#2: Loop through the problems
-for problem in problems_list:
+    for problem in test_problems_list:
     
         num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
-    
+        print("Working on problem " + str(num_prob) +" ....")
         time1 = time.time()*1000000
-    
+
         assignments = generate_assignments(num_var)
-     
         satisfiable, assignment_index = check_assignments(wff, assignments)
 
         time2 = time.time()*1000000
-    
+
         completion_time = time2-time1
     
         if assignment_index == -1:
             valid_assignment = []
         else:
             valid_assignment = assignments[assignment_index]
-           
+
         if sat == 'U':
             sat_num = 0
         elif sat == 'S':
@@ -198,48 +203,10 @@ for problem in problems_list:
     
         problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, valid_assignment)
     
+        output.write(problem_answer+'\n')
+        answers_list.append(problem_answer)
 
-    output.write(problem_answer+'\n')
-    answers_list.append(problem_answer)
+    last_line_csv = last_line_output(answers_list)
 
-    #Write answer string to file
-    output.write(problem_answer+'\n')
-
-file_name = sys.argv[1].split('.')[0]
-
-
-#Generate last line of output: stats about the wffs solved
-total_wffs = len(answers_list)
-
-satisfiable_wffs = 0
-answers_provided = 0
-num_correct_answered = 0
-
-
-
-for entry in answers_list:
-    entry_list = entry.split(',')
-
-    if entry_list[5] == 'S':
-        satisfiable_wffs += 1
-    if entry_list[6] != 0:
-        answers_provided += 1
-    if entry_list[6] != -1 and entry_list[6] != 0:
-        num_correct_answered += 1
-
-unsatisfiable_wffs = total_wffs - satisfiable_wffs
-
-
-last_line_list = [str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)]
-
-last_line_csv = ','.join(last_line_list)
-
-
-#Write last line to file
-output.write(last_line_csv+'\n')
-
-
-
-
-#Close file
-output.close()
+    output.write(last_line_csv+'\n')
+    output.close()
