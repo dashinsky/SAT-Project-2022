@@ -43,7 +43,25 @@ def parse_problem(wff):
         for item in clause:
             num_lit += 1
     
-    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff    
+    return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff   
+
+
+def format_output(num_prob, num_var, num_clause, max_per, num_lit, answer, result, completion_time, assignment): 
+    answer = [str(num_prob),str(num_var),str(num_clause),str(max_per),str(num_lit)]
+    
+    if sat == 1:
+        sat_string = 'S'
+    elif sat == 0:
+        sat_string = 'U'
+        
+    answer.append(sat_string)
+    answer.append(str(result))
+    answer.append(str(completion_time))
+    
+    for value in values:
+        answer.append(str(value))
+                
+    return ','.join(answer)
 
 
 def count_sat_clauses(wff, stack):
