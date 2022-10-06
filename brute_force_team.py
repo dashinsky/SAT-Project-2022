@@ -265,7 +265,7 @@ for problem in test_problems_list:
     #Parse the problem for relevant variables
     num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
     
-    print("Working on problem " + str(num_prob) +" ....")
+    
     
     #Start time check for wff
     time1 = time.time()*1000000
@@ -324,7 +324,7 @@ for entry in answers_list:
     total_wffs += 1
 
     entry_list = entry.split(',')
-    print(entry_list)
+   
     
     if entry_list[5] == 'S':
         satisfiable_wffs += 1
