@@ -125,6 +125,7 @@ def main():
 
         time2 = time.time()*1000000
 
+        '''
         completion_time = time2-time1
     
         if assignment_index == -1:
@@ -153,6 +154,7 @@ def main():
 
     output.write(last_line_csv+'\n')
     output.close()
+    '''
 
 if __name__ == "__main__":
     main()
