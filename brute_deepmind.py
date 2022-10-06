@@ -154,9 +154,6 @@ def main():
     output = open(output_name, "a")
 
 
-<<<<<<< HEAD
-    for problem in problems_list:
-=======
 import time
 
 #Execution: run all functions on the first several wff problems
@@ -169,7 +166,6 @@ test_problems_list = problems_list[:50]
 
 #2: Loop through the problems
 for problem in problems_list:
->>>>>>> 5afab97 (testing commit)
     
         num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
     
@@ -247,5 +243,3 @@ output.write(last_line_csv+'\n')
 
 #Close file
 output.close()
-
->>>>>>> cead03c9ce2b660bbca48ef301105ea1fa0a163d
