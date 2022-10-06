@@ -44,7 +44,7 @@ def parse_problem(wff):
             num_lit += 1
     
     return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff      
-    
+
 
 def check_assignment(wff, stack):
     '''
@@ -77,7 +77,6 @@ def solve_sat(problem):
     time2 = time.time()*1000000
 
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
-
     '''
     Flow of the function:
         - assign the value to num_var 
