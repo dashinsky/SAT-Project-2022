@@ -165,8 +165,6 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
             stack.pop()
 
 
-
-
 def main():
     input_file = sys.argv[1]
     output_name = sys.argv[1].split('.')[0]+'.csv'
