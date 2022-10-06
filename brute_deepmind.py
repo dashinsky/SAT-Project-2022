@@ -187,4 +187,50 @@ def main():
     
         problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, valid_assignment)
     
-        output.write(problem_answer+'\n')
+
+    output.write(problem_answer+'\n')
+    answers_list.append(problem_answer)
+
+    #Write answer string to file
+    output.write(problem_answer+'\n')
+
+file_name = sys.argv[1].split('.')[0]
+
+
+#Generate last line of output: stats about the wffs solved
+total_wffs = len(answers_list)
+
+satisfiable_wffs = 0
+answers_provided = 0
+num_correct_answered = 0
+
+
+
+for entry in answers_list:
+    entry_list = entry.split(',')
+
+    if entry_list[5] == 'S':
+        satisfiable_wffs += 1
+    if entry_list[6] != 0:
+        answers_provided += 1
+    if entry_list[6] != -1 and entry_list[6] != 0:
+        num_correct_answered += 1
+
+unsatisfiable_wffs = total_wffs - satisfiable_wffs
+
+
+last_line_list = [str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)]
+
+last_line_csv = ','.join(last_line_list)
+
+
+#Write last line to file
+output.write(last_line_csv+'\n')
+
+
+
+
+#Close file
+output.close()
+
+>>>>>>> cead03c9ce2b660bbca48ef301105ea1fa0a163d
