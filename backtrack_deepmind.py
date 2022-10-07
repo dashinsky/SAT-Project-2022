@@ -64,6 +64,35 @@ def format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, 
     return ','.join(answer)
 
 
+def last_line_output(answers_list):
+    '''
+    Generates last line of output: Stats about wff solved
+    '''
+    file_name = sys.argv[1].split('.')[0]
+    total_wffs = 0
+    satisfiable_wffs = 0
+    answers_provided  = 0
+    num_correct_answered = 0
+    file_name = sys.argv[1].split('.')[0]
+
+    for entry in answers_list:
+        total_wffs += 1
+
+        entry_list = entry.split(',')
+        print(entry_list)
+    
+        if entry_list[5] == 'S':
+            satisfiable_wffs += 1
+        if entry_list[6] != 0:
+            answers_provided += 1
+        if entry_list != -1 and entry_list[6] != 0:
+            num_correct_answered += 1
+        
+    unsatisfiable_wffs = total_wffs - satisfiable_wffs
+
+    return ','.join([str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)])
+
+
 def count_sat_clauses(wff, stack):
     '''
     Returns the number of clauses that are satisfied
@@ -102,7 +131,7 @@ def solve_sat(problem):
     time2 = time.time()*1000000
     completion_time = time2-time1
 
-    result = check_answer_key(satisfiable, sat)
+    result = check_against_answer_key(satisfiable, sat)
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
 
 
@@ -150,24 +179,24 @@ def main():
     input_file = sys.argv[1]
     output_name = sys.argv[1].split('.')[0]+'.csv'
     problems_list = read_problems(input_file)
+
     test_problems_list = problems_list[:150]
 
     output = open(output_name, "w")
     answers_list = []
 
     for problem in test_problems_list:
-        # solve_sat(problem)
-        num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
+        num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
         time1 = time.time()*1000000
-
-        #assignments = generate_assignments(num_var)
-        #satisfiable, assignment_index = check_assignments(wff, assignments)
+    
+        # returns whether the wff is satisfiable and the assignment that works
+        # if unsatisfiable => assignment = []
         satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
 
         time2 = time.time()*1000000
-
         completion_time = time2-time1
-
+           
+        #Convert numerical t/f to 'S' or 'S'    
         if sat == 'U':
             sat_num = 0
         elif sat == 'S':
@@ -178,17 +207,49 @@ def main():
         elif satisfiable == 0:
             satisfiable_string = 'U'
         
+        #Check if program matches answer key
         test_result = check_against_answer_key(satisfiable_string, sat)
     
+        #Generate answer string
         problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, assignment)
     
+        #Write answer string to file
         output.write(problem_answer+'\n')
         answers_list.append(problem_answer)
 
-    last_line_csv = last_line_output(answers_list)
-
-    output.write(last_line_csv+'\n')
+    output.write(last_line_output(answers_list)+'\n')
     output.close()
+
+'''
+REPLACED WITH last_line_output Function
+file_name = sys.argv[1].split('.')[0]
+
+#Generate last line of output: stats about the wff solved
+total_wffs = 0
+
+satisfiable_wffs = 0
+answers_provided  = 0
+num_correct_answered = 0
+
+for entry in answers_list:
+    total_wffs += 1
+
+    entry_list = entry.split(',')
+   
+    
+    if entry_list[5] == 'S':
+        satisfiable_wffs += 1
+    if entry_list[6] != 0:
+        answers_provided += 1
+    if entry_list != -1 and entry_list[6] != 0:
+        num_correct_answered += 1
+        
+unsatisfiable_wffs = total_wffs - satisfiable_wffs
+
+last_line_list = [str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)]
+
+last_line_csv = ','.join(last_line_list)
+'''
 
 if __name__ == "__main__":
     main()
