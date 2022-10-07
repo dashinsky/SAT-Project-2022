@@ -146,7 +146,7 @@ def solve_sat(problem):
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
 '''
 
-def backtracking_sat(wff, max_per, num_var, num_clause, num_lit):
+def backtracking_sat(wff, num_var, num_clause):
     global stack
 
     # Base cases
@@ -161,7 +161,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit):
 
     # Recursive cases
     stack.append([num_var - 1, 1, False])
-    flag = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
+    flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
         if flag == True:
@@ -175,8 +175,9 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit):
             else:
                 stack[-1][1] = 0
                 stack[-1][-1] = True
-                flag = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit)
+                flag = backtracking_sat(wff, num_var-1, num_clause)
 
+# Global Variables
 stack = []
 
 def main():
