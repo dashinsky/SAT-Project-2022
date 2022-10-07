@@ -2,6 +2,7 @@
 
 import time
 import sys
+import random
 
 def read_problems(filename):
     '''
@@ -154,7 +155,9 @@ def backtracking_sat(wff, num_var, num_clause):
         return 1
 
     # Recursive cases
-    stack.append([num_var - 1, 1, False])
+    # flip a coin for the assignment variable
+    value = random. randint(0, 1)
+    stack.append([num_var - 1, value, False])
     flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
@@ -167,7 +170,7 @@ def backtracking_sat(wff, num_var, num_clause):
                 if len(stack) == 0:
                     return -1
             else:
-                stack[-1][1] = 0
+                stack[-1][1] = 0 if stack[-1][1] == 1 else 1
                 stack[-1][-1] = True
                 flag = backtracking_sat(wff, stack[-1][0], num_clause)
 
