@@ -197,14 +197,6 @@ def main():
 
         time2 = time.time()*1000000
         completion_time = time2-time1
-           
-        #Convert numerical t/f to 'S' or 'S'  
-        '''
-        if sat == 'U':
-            sat_num = 0
-        elif sat == 'S':
-            sat_string = 1
-        '''
         
         if satisfiable == 1:
             satisfiable_string = 'S'
