@@ -171,6 +171,22 @@ def backtracking_sat(wff, num_var, num_clause):
                 stack[-1][-1] = True
                 flag = backtracking_sat(wff, num_var-1, num_clause)
 
+
+def generate_assignment(stack, num_var):
+    '''Generates the full assignment based on the stack (partial assignment that SATs)'''
+    assignment = []
+    if stack:
+        for line in stack:
+            assignment.append(line[0])
+
+        for i in range(num_var - len(stack)):
+            assignment.append(0)
+
+        assignment.reverse()
+
+    return assignment
+
+
 # Global Variables
 stack = []
 
