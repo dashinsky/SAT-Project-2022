@@ -169,11 +169,8 @@ def backtracking_sat(wff, num_var, num_clause):
     flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
-        if flag == 1:
-            return 1
-    
-        elif flag == -1:
-            return -1
+        if flag == 1 or flag == -1:
+            return flag
 
         elif flag == 0:
             if stack[-1][-1] == True:
