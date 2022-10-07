@@ -147,6 +147,11 @@ def solve_sat(problem):
 '''
 
 def backtracking_sat(wff, num_var, num_clause):
+    '''
+    1 - satisfiable
+    0 - continue
+    -1 - unsatisfiable
+    '''
     global stack
 
     # Base cases
