@@ -189,8 +189,8 @@ def main():
         num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
         time1 = time.time()*1000000
     
-        # returns whether the wff is satisfiable and the assignment that works
-        # if unsatisfiable => assignment = []
+        # returns whether the wff is satisfiable
+        # stack - assignment (empty if UNSAT)
         stack = [[num_var, 1, False]]
         satisfiable = backtracking_sat(wff, num_var, num_clause)
         assignment = stack
