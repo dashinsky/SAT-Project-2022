@@ -137,17 +137,6 @@ def solve_sat(problem):
 
 
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
-    '''
-    Flow of the function:
-        - assign the value to num_var 
-            - start with 1, push to stack
-            - if we have to go back assign it to 0 and change the stack accordingly ()
-            - if both values tried, pop it from the stack
-        - after each new assignment, check the number of clauses that satisfy (check_assignment function based on the stack)
-            - if number = num_clause return => we found an assignment that satisfies
-        - if stack is empty
-
-    '''
     # Base cases
     if not stack:
         return False, []
