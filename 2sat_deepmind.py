@@ -124,6 +124,44 @@ def count_sat_clauses(wff, stack):
     return count
 
 
+def optimize_stack(wff, stack):
+    curr_assignment = {}
+    count = 0
+
+    for var in stack:
+        curr_assignment[var[0]] = var[1]
+
+    for clause in wff:
+        p = clause[0]
+        q = clause[1]
+
+        # Case when first literal is false and the other has no assignment
+        if ((p in curr_assignment.keys() and curr_assignment[p] == 0) or (-p in curr_assignment.keys() and curr_assignment[-p] == 1)) and (q not in curr_assignment):
+            if q < 0:
+                stack.append([-q, 0, True])
+            else:
+                stack.append([q, 1, True])
+
+        # Case when second literal is false and the other has no assignment
+        if ((q in curr_assignment.keys() and curr_assignment[q] == 0) or (-q in curr_assignment.keys() and curr_assignment[-q] == 1)) and (p not in curr_assignment):
+            if p < 0:
+                stack.append([-p, 0, True])
+            else:
+                stack.append([p, 1, True])
+        
+
+def check_false_clause(wff, stack):
+    curr_assignment = {}
+
+    for var in stack:
+        curr_assignment[var[0]] = var[1]
+
+    for clause in wff:
+        p = clause[0]
+        q = clause[1]
+        if p in check_
+
+
 def check_against_answer_key(found, given):
     '''
     Checks the computer answer against the answer key
@@ -134,6 +172,21 @@ def check_against_answer_key(found, given):
         return 0
     elif found != given:
         return -1
+
+
+def twosat_solver(wff, num_var, num_clauses):
+    global stack
+    stack.append([num_var, 1])
+    sat_clauses = count_sat_clauses(wff, stack)
+    false_clauses = check_false_clause(wff, stack)
+
+    while sat_clauses < num_clauses and false_clauses == 0:
+        optimize_stack(wff, stack)
+        new_sat_clauses = count_sat_clauses(wff, stack)
+
+        if new_sat_clauses == sat_clauses:
+            # pick random variable to assign to 0 or 1
+
 
 
 def backtracking_sat(wff, num_var, num_clause):
@@ -154,7 +207,9 @@ def backtracking_sat(wff, num_var, num_clause):
         return 1
 
     # Recursive cases
+    if [num_var - 1, 1, ]
     stack.append([num_var - 1, 1, False])
+    optimize_stack(wff, stack)
     flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
