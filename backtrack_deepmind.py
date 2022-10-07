@@ -86,7 +86,7 @@ def count_sat_clauses(wff, stack):
     return count
 
 
-def check_answer_key(found, given):
+def check_against_answer_key(found, given):
     if found == given:
         return 1
     elif given == '?':
@@ -156,22 +156,17 @@ def main():
     answers_list = []
 
     for problem in test_problems_list:
-        solve_sat(problem)
-        # num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
-        #time1 = time.time()*1000000
+        # solve_sat(problem)
+        num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
+        time1 = time.time()*1000000
 
         #assignments = generate_assignments(num_var)
         #satisfiable, assignment_index = check_assignments(wff, assignments)
+        satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
 
-        # time2 = time.time()*1000000
+        time2 = time.time()*1000000
 
-        '''
         completion_time = time2-time1
-    
-        if assignment_index == -1:
-            valid_assignment = []
-        else:
-            valid_assignment = assignments[assignment_index]
 
         if sat == 'U':
             sat_num = 0
@@ -185,7 +180,7 @@ def main():
         
         test_result = check_against_answer_key(satisfiable_string, sat)
     
-        problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, valid_assignment)
+        problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, assignment)
     
         output.write(problem_answer+'\n')
         answers_list.append(problem_answer)
@@ -194,7 +189,6 @@ def main():
 
     output.write(last_line_csv+'\n')
     output.close()
-    '''
 
 if __name__ == "__main__":
     main()
