@@ -156,23 +156,26 @@ def backtracking_sat(wff, num_var, num_clause):
 
     # Base cases
     if not stack:
-        return False
+        return -1
 
     if count_sat_clauses(wff, stack) == num_clause:
-        return True
+        return 1
 
     if num_var <= 0:
-        return False
+        return 0
 
     # Recursive cases
     stack.append([num_var - 1, 1, False])
     flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
-        if flag == True:
-            return True
+        if flag == 1:
+            return 1
     
-        elif flag == False:
+        elif flag == -1:
+            return -1
+
+        elif flag == 0:
             if stack[-1][-1] == True:
                 if len(stack) == 1:
                     return False, []
