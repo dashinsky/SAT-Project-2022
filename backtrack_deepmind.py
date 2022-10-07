@@ -169,7 +169,7 @@ def backtracking_sat(wff, num_var, num_clause):
             else:
                 stack[-1][1] = 0
                 stack[-1][-1] = True
-                flag = backtracking_sat(wff, num_var-1, num_clause)
+                flag = backtracking_sat(wff, stack[-1][0], num_clause)
 
 
 def generate_assignment(stack, num_var):
@@ -195,7 +195,7 @@ def main():
     output_name = 'test.solution'
     problems_list = read_problems(input_file)
 
-    test_problems_list = problems_list[4:5]
+    test_problems_list = problems_list[:21]
 
     output = open(output_name, "w")
     answers_list = []
