@@ -26,7 +26,6 @@ def read_problems(filename):
 def parse_problem(wff):
     '''
     Parses through the list of problems
-    * used in main
     '''
     problem_info = wff[0].split()
     problem_number = int(problem_info[0])
