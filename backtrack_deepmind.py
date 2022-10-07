@@ -82,8 +82,7 @@ def last_line_output(answers_list):
     satisfiable_wffs = 0
     answers_provided  = 0
     num_correct_answered = 0
-    # file_name = sys.argv[1].split('.')[0]
-    file_name = 'tests/kSAT.cnf'
+    file_name = sys.argv[1].split('.')[0]
 
     for entry in answers_list:
         total_wffs += 1
@@ -155,9 +154,7 @@ def backtracking_sat(wff, num_var, num_clause):
         return 1
 
     # Recursive cases
-    # flip a coin for the assignment variable
-    value = random. randint(0, 1)
-    stack.append([num_var - 1, value, False])
+    stack.append([num_var - 1, 1, False])
     flag = backtracking_sat(wff, num_var-1, num_clause)
 
     while True:
@@ -170,7 +167,7 @@ def backtracking_sat(wff, num_var, num_clause):
                 if len(stack) == 0:
                     return -1
             else:
-                stack[-1][1] = 0 if stack[-1][1] == 1 else 1
+                stack[-1][1] = 0
                 stack[-1][-1] = True
                 flag = backtracking_sat(wff, stack[-1][0], num_clause)
 
@@ -192,13 +189,11 @@ stack = []
 
 def main():
     global stack
-    # input_file = sys.argv[1]
-    input_file = 'tests/kSAT.cnf'
-    # output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
-    output_name = 'test.solution'
+    input_file = sys.argv[1]
+    output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
     problems_list = read_problems(input_file)
 
-    test_problems_list = problems_list[:21]
+    test_problems_list = problems_list[:30]
 
     output = open(output_name, "w")
     answers_list = []
@@ -216,7 +211,6 @@ def main():
         completion_time = time2-time1
         
         assignment = generate_assignment(stack, num_var) if satisfiable == 1 else []
-        # print(f'Answer: {satisfiable}, Stack: {stack}, Assignment: {assignment}')
 
         if satisfiable == 1:
             satisfiable_string = 'S'
