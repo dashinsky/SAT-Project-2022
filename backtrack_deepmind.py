@@ -57,6 +57,7 @@ def format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, 
     '''
     answer = [str(num_prob),str(num_var),str(num_clause),str(max_per),str(num_lit)]
     
+    sat_string = ''
     if satisfiable == 1:
         sat_string = 'S'
     elif satisfiable == 0:
@@ -113,10 +114,10 @@ def count_sat_clauses(wff, stack):
 
     for clause in wff:
         for literal in clause:
-            if literal in curr_assignment and curr_assignment[literal] == 1:
+            if literal in curr_assignment.keys() and curr_assignment[literal] == 1:
                 count += 1
                 break
-            elif literal < 0 and (-literal) in curr_assignment and curr_assignment[literal] == 0:
+            elif literal < 0 and (-literal in curr_assignment.keys()) and curr_assignment[-literal] == 0:
                 count += 1
                 break
     
@@ -187,7 +188,7 @@ stack = []
 def main():
     global stack
     input_file = sys.argv[1]
-    output_name = sys.argv[1].split('.')[0]+'.csv'
+    output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
     problems_list = read_problems(input_file)
 
     test_problems_list = problems_list[:150]
@@ -196,27 +197,29 @@ def main():
     answers_list = []
 
     for problem in test_problems_list:
-        num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
+        num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
         time1 = time.time()*1000000
     
         # returns whether the wff is satisfiable and the assignment that works
         # if unsatisfiable => assignment = []
         stack = [[num_var, 1, False]]
-        satisfiable = backtracking_sat(wff, max_per, num_var, num_clause, num_lit)
+        satisfiable = backtracking_sat(wff, num_var, num_clause)
         assignment = stack
 
         time2 = time.time()*1000000
         completion_time = time2-time1
            
-        #Convert numerical t/f to 'S' or 'S'    
+        #Convert numerical t/f to 'S' or 'S'  
+        '''
         if sat == 'U':
             sat_num = 0
         elif sat == 'S':
             sat_string = 1
+        '''
         
         if satisfiable == 1:
             satisfiable_string = 'S'
-        elif satisfiable == 0:
+        elif satisfiable == -1:
             satisfiable_string = 'U'
         
         #Check if program matches answer key
