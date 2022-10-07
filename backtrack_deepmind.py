@@ -193,7 +193,7 @@ def main():
     output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
     problems_list = read_problems(input_file)
 
-    test_problems_list = problems_list[:30]
+    test_problems_list = problems_list[:21]
 
     output = open(output_name, "w")
     answers_list = []
