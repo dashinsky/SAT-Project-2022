@@ -77,12 +77,12 @@ def last_line_output(answers_list):
     '''
     Generates last line of output: Stats about wff solved
     '''
-    file_name = sys.argv[1].split('.')[0]
     total_wffs = 0
     satisfiable_wffs = 0
     answers_provided  = 0
     num_correct_answered = 0
-    file_name = sys.argv[1].split('.')[0]
+    # file_name = sys.argv[1].split('.')[0]
+    file_name = 'tests/kSAT.cnf'
 
     for entry in answers_list:
         total_wffs += 1
@@ -147,11 +147,11 @@ def backtracking_sat(wff, num_var, num_clause):
     if not stack:
         return -1
 
-    if count_sat_clauses(wff, stack) == num_clause:
-        return 1
-
     if num_var <= 0:
         return 0
+
+    if count_sat_clauses(wff, stack) == num_clause:
+        return 1
 
     # Recursive cases
     stack.append([num_var - 1, 1, False])
@@ -163,9 +163,9 @@ def backtracking_sat(wff, num_var, num_clause):
 
         elif flag == 0:
             if stack[-1][-1] == True:
-                if len(stack) == 1:
-                    return -1
                 stack.pop()
+                if len(stack) == 0:
+                    return -1
             else:
                 stack[-1][1] = 0
                 stack[-1][-1] = True
@@ -189,11 +189,13 @@ stack = []
 
 def main():
     global stack
-    input_file = sys.argv[1]
-    output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
+    # input_file = sys.argv[1]
+    input_file = 'tests/kSAT.cnf'
+    # output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
+    output_name = 'test.solution'
     problems_list = read_problems(input_file)
 
-    test_problems_list = problems_list[:10]
+    test_problems_list = problems_list[4:5]
 
     output = open(output_name, "w")
     answers_list = []
