@@ -143,6 +143,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
             backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
         else:
             stack.pop()
+        return False, stack
 
 
 def main():
