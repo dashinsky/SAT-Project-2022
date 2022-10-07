@@ -2,10 +2,6 @@
 
 import sys
 import time
-# coding: utf-8
-
-
-
 
 #Read in CNF DIMACS file, and separate each problem into its own list
 def read_problems(filename):
@@ -17,7 +13,6 @@ def read_problems(filename):
     
         #Split into problems by looking for c
         split = lines.split('c ')
-
     
     #Split by newline
     wffs = []
@@ -37,9 +32,7 @@ def read_problems(filename):
     return wffs
         
 
-
 #Function to read in a particular problem in a usable format
-
 def parse_problem(wff):
     
     #Split the "c" line so we can parse 
@@ -52,13 +45,11 @@ def parse_problem(wff):
     #Get max num literals per clause
     num_per = int(problem_info[1])
     
-    
     #If included, get whether known to be satisfiable or unsatisfiable (test cases)
     if len(problem_info) == 3:
         satisfiable = problem_info[2]
     else:
         satisfiable = "NA"
-
     
     #After we've done this, parse the p line
     cnf_info = wff[1].split()
@@ -66,21 +57,16 @@ def parse_problem(wff):
     #Get total num variables
     num_variables = int(cnf_info[2])
     
-    
     #Get total num clauses
     num_clauses = int(cnf_info[3])
-
-        
+ 
     #From number of variables, generate number of possible assignment combos
     num_assignments = int(2**(int(num_variables)))
 
-    
     #After parsing the p line, remove the c and p lines so we just have the clauses
     wff = wff[2:]
-    
-    
+
     #Transform each clause to a list, getting rid of zeros
-    
     #Convert strings of clauses to list format, removing zeros
     list_wff = [clause.split(",")[:-1] for clause in wff]
        
@@ -93,10 +79,7 @@ def parse_problem(wff):
         for item in clause:
             num_lit += 1
         
-    
     return problem_number,num_per,satisfiable,num_variables,num_clauses,num_assignments,num_lit,final_wff
-
-
 
 
 #Function to generate all possible assignments for a given number of variables
@@ -113,12 +96,9 @@ def generate_assignments(num_variables):
     return [ next_row + [value] for next_row in new_table for value in values]
     
 
-
-
 def verify(wff, assignment):
     
     valid = 1
-    
     
     #Big for loop
     #Default of valid_clause = 0 for EACH CLAUSE
@@ -144,7 +124,6 @@ def verify(wff, assignment):
             else:
                 clause_tf.append(0)
                 
-        
         clause_tf_index = 0
         
         #Check each variable's t/f value against its assignment
@@ -156,18 +135,12 @@ def verify(wff, assignment):
                 
             #Increment to check next literal
             clause_tf_index += 1
-                
-        
 
         #If no valid match has been found, the clause fails and is unsatisfiable with the given assignment
         if valid_clause == 0:
             valid = 0
         
     return valid
-        
-        
-
-
 
 
 #Loop through the possible assignments, and see if any of them satisfy the wff
@@ -192,8 +165,6 @@ def check_assignments(wff, assignments_list):
         assignment_index = -1       
 
     return satisfiable,assignment_index
-    
-
 
 
 def check_against_answer_key(code_answer, given_answer):
@@ -208,8 +179,6 @@ def check_against_answer_key(code_answer, given_answer):
         return -1
         
 
-
-
 #Output function: takes the relevant variables and formats the output into CSV
 def format_output(num_prob, num_var, num_clause, num_per, num_lit, sat, test_result, completion_time, values):
     
@@ -221,7 +190,6 @@ def format_output(num_prob, num_var, num_clause, num_per, num_lit, sat, test_res
     elif sat == 0:
         sat_string = 'U'
         
-        
     answer.append(sat_string)
     
     answer.append(str(test_result))
@@ -230,14 +198,8 @@ def format_output(num_prob, num_var, num_clause, num_per, num_lit, sat, test_res
     
     for value in values:
         answer.append(str(value))
-                  
-    
         
     return ','.join(answer)
-
-
-
-
 
 
 import time
@@ -251,7 +213,6 @@ output_name = sys.argv[1].split('.')[0]+'.csv'
 
 problems_list = read_problems(input_file)
 
-
 #1.1: (for testing): select only the first xx problems to try
 test_problems_list = problems_list[:150]
 
@@ -264,8 +225,6 @@ for problem in test_problems_list:
     
     #Parse the problem for relevant variables
     num_prob, max_per, sat, num_var, num_clause, num_as, num_lit, wff = parse_problem(problem)
-    
-    
     
     #Start time check for wff
     time1 = time.time()*1000000
@@ -306,7 +265,6 @@ for problem in test_problems_list:
     #Generate answer string
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, test_result, completion_time, valid_assignment)
     
-    
     #Write answer string to file
     output.write(problem_answer+'\n')
     answers_list.append(problem_answer)
@@ -325,7 +283,6 @@ for entry in answers_list:
 
     entry_list = entry.split(',')
    
-    
     if entry_list[5] == 'S':
         satisfiable_wffs += 1
     if entry_list[6] != 0:
@@ -342,11 +299,5 @@ last_line_csv = ','.join(last_line_list)
 #Write last line to file
 output.write(last_line_csv+'\n')
 
- 
 #Close output file
 output.close()
-    
-    
-    
-        
-
