@@ -4,6 +4,9 @@ import time
 import sys
 
 def read_problems(filename):
+    '''
+    Reads in the correct input format
+    '''
     with open(filename) as ksat:
         lines = ksat.read()
         split = lines.split('c ')
@@ -21,7 +24,10 @@ def read_problems(filename):
 
 
 def parse_problem(wff):
-    
+    '''
+    Parses through the list of problems
+    * used in main
+    '''
     problem_info = wff[0].split()
     problem_number = int(problem_info[0])
     num_per = int(problem_info[1])
