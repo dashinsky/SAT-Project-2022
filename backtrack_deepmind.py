@@ -175,7 +175,7 @@ def backtracking_sat(wff, num_var, num_clause):
         elif flag == 0:
             if stack[-1][-1] == True:
                 if len(stack) == 1:
-                    return False, []
+                    return -1
                 stack.pop()
             else:
                 stack[-1][1] = 0
