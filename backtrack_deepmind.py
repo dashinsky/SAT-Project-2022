@@ -124,6 +124,9 @@ def count_sat_clauses(wff, stack):
 
 
 def check_against_answer_key(found, given):
+    '''
+    Checks the computer answer against the answer key
+    '''
     if found == given:
         return 1
     elif given == '?':
