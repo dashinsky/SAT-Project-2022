@@ -177,7 +177,7 @@ def generate_assignment(stack, num_var):
     assignment = []
     if stack:
         for line in stack:
-            assignment.append(line[0])
+            assignment.append(line[1])
         for i in range(num_var - len(stack)):
             assignment.append(0)
         assignment.reverse()
