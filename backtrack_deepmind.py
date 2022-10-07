@@ -147,7 +147,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if num_var <= 0:
         return False, stack
 
-    # Recursive case
+    # Recursive cases
     stack.append([num_var - 1, 1, False])
     flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
 
