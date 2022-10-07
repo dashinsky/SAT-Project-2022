@@ -207,7 +207,7 @@ def main():
         # stack - assignment (empty if UNSAT)
         stack = [[num_var, 1, False]]
         satisfiable = backtracking_sat(wff, num_var, num_clause)
-        assignment = stack
+        assignment = generate_assignment(stack, num_var)
 
         time2 = time.time()*1000000
         completion_time = time2-time1
