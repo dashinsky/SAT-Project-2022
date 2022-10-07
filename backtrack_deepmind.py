@@ -135,17 +135,6 @@ def check_against_answer_key(found, given):
     elif found != given:
         return -1
 
-'''
-def solve_sat(problem):
-    num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
-    time1 = time.time()*1000000
-    satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
-    time2 = time.time()*1000000
-    completion_time = time2-time1
-
-    result = check_against_answer_key(satisfiable, sat)
-    problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
-'''
 
 def backtracking_sat(wff, num_var, num_clause):
     '''
