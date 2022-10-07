@@ -46,19 +46,19 @@ def parse_problem(wff):
     return problem_number,num_per,satisfiable,num_variables,num_clauses,num_lit,final_wff   
 
 
-def format_output(num_prob, num_var, num_clause, max_per, num_lit, answer, result, completion_time, assignment): 
+def format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment): 
     answer = [str(num_prob),str(num_var),str(num_clause),str(max_per),str(num_lit)]
     
-    if sat == 1:
+    if satisfiable == 1:
         sat_string = 'S'
-    elif sat == 0:
+    elif satisfiable == 0:
         sat_string = 'U'
         
     answer.append(sat_string)
     answer.append(str(result))
     answer.append(str(completion_time))
     
-    for value in values:
+    for value in assignment:
         answer.append(str(value))
                 
     return ','.join(answer)
@@ -98,12 +98,13 @@ def check_answer_key(found, given):
 def solve_sat(problem):
     num_prob, max_per, sat, num_var, num_clause, num_lit, wff = parse_problem(problem)
     time1 = time.time()*1000000
-    answer, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
+    satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
     time2 = time.time()*1000000
     completion_time = time2-time1
 
-    result = check_answer_key(answer, sat)
-    problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, answer, result, completion_time, assignment)
+    result = check_answer_key(satisfiable, sat)
+    problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
+
 
 
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
@@ -125,7 +126,7 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     if count_sat_clauses(wff, stack) == num_clause:
         return True, stack
 
-    if num_var == -1:
+    if num_var <= 0:
         return False, stack
 
     # Recursive case
