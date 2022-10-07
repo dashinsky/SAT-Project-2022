@@ -210,7 +210,7 @@ def main():
         time2 = time.time()*1000000
         completion_time = time2-time1
         
-        # assignment = generate_assignment(stack, num_var) if satisfiable == 1 else []
+        assignment = generate_assignment(stack, num_var) if satisfiable == 1 else []
         # print(f'Answer: {satisfiable}, Stack: {stack}, Assignment: {assignment}')
 
         if satisfiable == 1:
