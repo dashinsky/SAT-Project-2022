@@ -162,17 +162,19 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     stack.append([num_var - 1, 1, False])
     flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
 
-    if flag == True:
-        return True, path
-
-    elif flag == False:
-        if stack[-1][-1] == False:
-            stack[-1][1] = 0
-            stack[-1][-1] = True
-            backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
-        else:
-            stack.pop()
-        return False, stack
+    while True:
+        if flag == True:
+            return True, path
+    
+        elif flag == False:
+            if stack[-1][-1] == True:
+                if len(stack) == 1:
+                    return False, []
+                stack.pop()
+            else:
+                stack[-1][1] = 0
+                stack[-1][-1] = True
+                flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
 
 
 def main():
