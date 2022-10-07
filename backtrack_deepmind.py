@@ -52,6 +52,9 @@ def parse_problem(wff):
 
 
 def format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment): 
+    '''
+    Creates the output according to the format
+    '''
     answer = [str(num_prob),str(num_var),str(num_clause),str(max_per),str(num_lit)]
     
     if satisfiable == 1:
