@@ -146,24 +146,26 @@ def solve_sat(problem):
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
 '''
 
-def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
+def backtracking_sat(wff, max_per, num_var, num_clause, num_lit):
+    global stack
+
     # Base cases
     if not stack:
-        return False, []
+        return False
 
     if count_sat_clauses(wff, stack) == num_clause:
-        return True, stack
+        return True
 
     if num_var <= 0:
-        return False, stack
+        return False
 
     # Recursive cases
     stack.append([num_var - 1, 1, False])
-    flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
+    flag = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
 
     while True:
         if flag == True:
-            return True, path
+            return True
     
         elif flag == False:
             if stack[-1][-1] == True:
@@ -173,10 +175,12 @@ def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
             else:
                 stack[-1][1] = 0
                 stack[-1][-1] = True
-                flag, path = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit, stack)
+                flag = backtracking_sat(wff, max_per, num_var-1, num_clause, num_lit)
 
+stack = []
 
 def main():
+    global stack
     input_file = sys.argv[1]
     output_name = sys.argv[1].split('.')[0]+'.csv'
     problems_list = read_problems(input_file)
@@ -192,7 +196,8 @@ def main():
     
         # returns whether the wff is satisfiable and the assignment that works
         # if unsatisfiable => assignment = []
-        satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit, [[num_var, 1, False]])
+        stack = [[num_var, 1, False]]
+        satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit)
 
         time2 = time.time()*1000000
         completion_time = time2-time1
