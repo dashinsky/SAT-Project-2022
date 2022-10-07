@@ -60,7 +60,7 @@ def format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, 
     sat_string = ''
     if satisfiable == 1:
         sat_string = 'S'
-    elif satisfiable == 0:
+    elif satisfiable == -1:
         sat_string = 'U'
         
     answer.append(sat_string)
@@ -175,12 +175,11 @@ def backtracking_sat(wff, num_var, num_clause):
 def generate_assignment(stack, num_var):
     '''Generates the full assignment based on the stack (partial assignment that SATs)'''
     assignment = []
-    if stack:
-        for line in stack:
-            assignment.append(line[1])
-        for i in range(num_var - len(stack)):
-            assignment.append(0)
-        assignment.reverse()
+    for line in stack:
+        assignment.append(line[1])
+    for i in range(num_var - len(stack)):
+        assignment.append(0)
+    assignment.reverse()
 
     return assignment
 
@@ -194,7 +193,7 @@ def main():
     output_name = sys.argv[1].split('.')[0]+'_backtrack.csv'
     problems_list = read_problems(input_file)
 
-    test_problems_list = problems_list[:150]
+    test_problems_list = problems_list[:10]
 
     output = open(output_name, "w")
     answers_list = []
@@ -207,11 +206,13 @@ def main():
         # stack - assignment (empty if UNSAT)
         stack = [[num_var, 1, False]]
         satisfiable = backtracking_sat(wff, num_var, num_clause)
-        assignment = generate_assignment(stack, num_var)
 
         time2 = time.time()*1000000
         completion_time = time2-time1
         
+        # assignment = generate_assignment(stack, num_var) if satisfiable == 1 else []
+        # print(f'Answer: {satisfiable}, Stack: {stack}, Assignment: {assignment}')
+
         if satisfiable == 1:
             satisfiable_string = 'S'
         elif satisfiable == -1:
