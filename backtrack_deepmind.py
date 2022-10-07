@@ -135,7 +135,6 @@ def solve_sat(problem):
     problem_answer = format_output(num_prob, num_var, num_clause, max_per, num_lit, satisfiable, result, completion_time, assignment)
 
 
-
 def backtracking_sat(wff, max_per, num_var, num_clause, num_lit, stack):
     # Base cases
     if not stack:
