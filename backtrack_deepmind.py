@@ -203,7 +203,8 @@ def main():
         # returns whether the wff is satisfiable and the assignment that works
         # if unsatisfiable => assignment = []
         stack = [[num_var, 1, False]]
-        satisfiable, assignment = backtracking_sat(wff, max_per, num_var, num_clause, num_lit)
+        satisfiable = backtracking_sat(wff, max_per, num_var, num_clause, num_lit)
+        assignment = stack
 
         time2 = time.time()*1000000
         completion_time = time2-time1
@@ -231,37 +232,6 @@ def main():
 
     output.write(last_line_output(answers_list)+'\n')
     output.close()
-
-'''
-REPLACED WITH last_line_output Function
-file_name = sys.argv[1].split('.')[0]
-
-#Generate last line of output: stats about the wff solved
-total_wffs = 0
-
-satisfiable_wffs = 0
-answers_provided  = 0
-num_correct_answered = 0
-
-for entry in answers_list:
-    total_wffs += 1
-
-    entry_list = entry.split(',')
-   
-    
-    if entry_list[5] == 'S':
-        satisfiable_wffs += 1
-    if entry_list[6] != 0:
-        answers_provided += 1
-    if entry_list != -1 and entry_list[6] != 0:
-        num_correct_answered += 1
-        
-unsatisfiable_wffs = total_wffs - satisfiable_wffs
-
-last_line_list = [str(file_name), 'deepmind', str(total_wffs), str(satisfiable_wffs), str(unsatisfiable_wffs), str(answers_provided), str(num_correct_answered)]
-
-last_line_csv = ','.join(last_line_list)
-'''
 
 if __name__ == "__main__":
     main()
